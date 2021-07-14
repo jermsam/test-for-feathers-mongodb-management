@@ -6,6 +6,6 @@
     "default": 10,
     "max": 50
   },
-  "mongodb": "mongodb://super:super@localhost:27017/Main_DB?authSource=admin",
+  "mongodb": "mongodb://super:super@localhost:27017/Simple_Main_DB?authSource=admin",
   "disabledServices":[]
 }

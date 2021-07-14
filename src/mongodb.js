@@ -14,7 +14,7 @@ module.exports =  function (app) {
     .then(
       client => {
         app.set('client',client);
-        // console.log(client);
+        // console.log(client.db('super'));
         // Create the service to manage DBs
         //app.use('/databases', mongoManager.database({ db: app.db }));
         app.use('/databases', mongoManager.database({ adminDb: client.db('super').admin(), client }));

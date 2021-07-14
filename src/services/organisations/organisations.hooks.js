@@ -1,6 +1,4 @@
-
-const mongoManager = require('feathers-mongodb-management');
-
+const plugin = require('feathers-mongodb-management');
 
 function createOrganisationDB (hook) {
   return hook.app.service('databases').create({
@@ -21,19 +19,18 @@ function removeOrganisationDB (hook) {
     });
 }
 
-function createOrganisationService (hook){
-  let db = hook.app.get('client').db(hook.result._id.toString());
-  console.log('Creating Service ..... ',hook.result._id.toString() + '/assets');
-  // Now create services binded to this database to manage collections/users
-  hook.app.use(hook.result._id.toString() + '/assets', mongoManager.collection({ db }));
 
-  console.log('Created Service ',hook.result._id.toString() + '/assets');
+function createOrganisationServices (hook){
+  let db = hook.app.get('client').db(hook.result._id.toString());
+  // Now create services binded to this database to manage collections/users
+  hook.app.use('/'+hook.result._id.toString() + '/collections', plugin.collection({ db }));
+  // hook.app.use('/'+hook.result._id.toString() +'/users', plugin.user({ db }));
   return hook;
 }
 
 
 // Hook populating disabled services when an organisation is removed
-function removeOrganisationService (hook) {
+function removeOrganisationServices (hook) {
   hook.app.set('disabledServices',[...hook.app.get('disabledServices'),hook.result._id.toString() + '/assets']);
 }
 
@@ -54,10 +51,10 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [createOrganisationDB,createOrganisationService],
+    create: [createOrganisationDB,createOrganisationServices],
     update: [],
     patch: [],
-    remove: [removeOrganisationDB,removeOrganisationService]
+    remove: [removeOrganisationDB,removeOrganisationServices]
   },
 
   error: {
