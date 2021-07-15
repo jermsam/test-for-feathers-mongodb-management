@@ -23,7 +23,7 @@ function removeOrganisationDB (hook) {
 function createOrganisationServices (hook){
   let db = hook.app.get('client').db(hook.result._id.toString());
   // Now create services binded to this database to manage collections/users
-  hook.app.use('/'+hook.result._id.toString() + '/assets', plugin.collection({ db }));
+  hook.app.use(hook.result._id.toString() + '/assets', plugin.collection({ db }));
   // hook.app.use('/'+hook.result._id.toString() +'/users', plugin.user({ db }));
   return hook;
 }
